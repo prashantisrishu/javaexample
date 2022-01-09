@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+  tools
+   {
+    maven 'M2_HOME'
+   }
+    stages {
+	
+		stage('Checkout') 
+		{
+			steps 
+			{
+				git branch: 'main',
+				credentialsId: '35798b44-1c58-4e53-aafd-318249a588cb',
+				url: 'https://github.com/vsonka/javasamplecode.git'
+			}
+		}
+		stage('Build')
+		{
+			steps
+			{
+				script
+				{
+					bat 'mvn  compile'
+				}
+			}
+		}
+		stage('Test')
+		{
+			steps
+			{
+				script
+				{
+					bat 'mvn test'
+				}
+			}
+		}
+		stage('Package')
+		{
+			steps
+			{
+				script
+				{
+					bat 'mvn package '
+				}
+			}
+		}
+
+    }
+}
